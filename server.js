@@ -4,6 +4,7 @@ const dbConnector = require('./utils/dbConnector');
 const authRoutes = require('./routes/authRoutes');
 const noteRoutes = require('./routes/noteRoutes');
 const cors = require('cors');
+const { authRateLimit, requestRateLimit } = require('./middlewares/rateLimiters');
 
 const PORT = process.env.PORT || 5000;
 
@@ -13,8 +14,8 @@ app.use(express.json());
 app.use(cookieParser());
 dbConnector();
 
-app.use('/api/auth', authRoutes);
-app.use('/api/notes', noteRoutes)
+app.use('/api/auth', authRateLimit, authRoutes);
+app.use('/api/notes', requestRateLimit, noteRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
