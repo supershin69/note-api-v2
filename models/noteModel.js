@@ -9,5 +9,9 @@ const noteSchema = mongoose.Schema({
   timestamps: true
 });
 
+noteSchema.index({ owner: 1, createdAt: -1 });
+noteSchema.index({ title: 'text', content: 'text' });
+noteSchema.index({ createdAt: -1 });
+
 const Note = mongoose.model('Note', noteSchema);
 module.exports = Note;
